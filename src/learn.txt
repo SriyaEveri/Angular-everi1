@@ -1,0 +1,992 @@
+<h1>welcome{{3*2}}</h1>
+<h1>welcome,mydear {{namVar | uppercase}}</h1>
+<h1>welcome,mydear <u>{{firstname}}</u>{{lastname}}</h1>
+<h1>welcome,mydear {{firstname +lastname}}</h1>
+<!-- <h1 *ngIf= "tymVar < 12"> good morning</h1> -->
+<h1>Salary {{Salary | currency}}</h1>
+<div *ngIf= "tymVar < 12; then mng else afn"></div>
+<ng-template #mng>
+<h1>
+  morning
+</h1>
+</ng-template>
+<ng-template #afn>
+  <h1>
+    afternoon
+  </h1>
+  </ng-template>
+  <ul type="square">
+    <span *ngFor="let ItmVar of tripAryVar;let IdxVar=index">
+<li *ngIf="!ItmVar.includes('beach')"></li>    
+   {{IdxVar+1}}{{ItmVar}}</span>
+</ul>
+<!-- <table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Prod</th>
+    <th>cost</th>
+  </tr> -->
+  <!-- <tr *ngFor="let ItmVar of verifyTable.sort(sortBycost)">
+    <td>
+      {{ItmVar.NamVak}}
+    </td>
+    <td>{{ItmVar.prod}}</td>
+    <td>{{ItmVar.cost}}</td>
+  </tr> -->
+  <table border="1">
+  <tr *ngFor="let ItmVar of sortbyco()">
+    <td>
+      {{ItmVar.NamVak}}
+    </td>
+    <td>{{ItmVar.prod}}</td>
+    <td>{{ItmVar.cost}}</td>
+    <td>{{totalCostUnit(ItmVar.cost)}}</td>
+  </tr>
+  <tr><th colspan="2">Total</th>
+    <td>{{totalCost()}}</td>
+    <td>{{totalCostUnit(totalCost())}}</td>
+  </tr>
+  
+</table>
+<ng-container [ngSwitch] = "seasonVar">
+  <div *ngSwitchCase="'summer'"> goa</div>
+  <div *ngSwitchCase="'winter'"> ooty</div>
+  <div *ngSwitchCase="'Rainy'"> kerla</div>
+
+</ng-container>
+
+<!-- <button (click)="NamBtnKlkFnc()">dare to click me</button> -->
+
+<!-- app.component.html -->
+<!-- <div class="container">
+  <div class="list" cdkDropList
+       [cdkDropListData]="todo"
+       (cdkDropListDropped)="drop($event)">
+    <h2>To Do</h2>
+    <div *ngFor="let item of todo" cdkDrag>{{item}}</div>
+  </div>
+
+  <div class="list" cdkDropList
+       [cdkDropListData]="inProgress"
+       (cdkDropListDropped)="drop($event)">
+    <h2>In Progress</h2>
+    <div *ngFor="let item of inProgress" cdkDrag>{{item}}</div>
+  </div>
+
+  <div class="list" cdkDropList
+       [cdkDropListData]="test"
+       (cdkDropListDropped)="drop($event)">
+    <h2>Test</h2>
+    <div *ngFor="let item of test" cdkDrag>{{item}}</div>
+  </div>
+</div>
+ -->
+<!-- <div class = "DspFlxCls">
+  <div class ="BorderCls"
+  *ngFor="let StsItmVar of StsAryVar"
+  (dragover)="DrgOvrFnc($event)"
+  (drop) ="DrgStpFnc($event,StsItmVar)">
+  <h1>class ="AlnC</h1>
+</div>
+</div> -->
+<!-- <div [ngClass]="StsVar? 'greentheme':'purpletheme'">
+  <h1>ng CLASS  with theme</h1>
+  <button (click)="Changetheme()">Change theme</button>
+</div>
+
+<div [ngClass]="StsVar ? 'greentheme' : 'purpletheme'">
+  <h1>ng CLASS with theme</h1>
+  <button (click)="Changetheme()">Change theme</button>
+</div>
+<div>
+  <button [ngStyle]="{'background-color': currentColor}">HIT ON</button>
+</div> -->
+<!-- <h1>You entered:{{FomIptVar}}</h1> -->
+
+
+// .ts content
+
+// import { CommonModule } from '@angular/common';
+// import { Component } from '@angular/core';
+// import { RouterOutlet } from '@angular/router';
+// import { CdkDragDrop } from '@angular/cdk/drag-drop';
+// import { FormsModule } from '@angular/forms';
+
+// @Component({
+//   selector: 'app-root',
+//   standalone: true,
+//   imports: [RouterOutlet,CommonModule,FormsModule],
+//   templateUrl: './app.component.html',
+//   styleUrl: './app.component.css'
+// })
+// // export class AppComponent {
+// //   namVar = "Sriya"
+// //   firstname = "sriya"
+// //   lastname = "kana"
+// //   tymVar = 10 
+// //   tripAryVar =["a beach","b beach","c beach","d"]
+// //   Salary = 1000
+// //   verifyTable=[
+// //     {
+// //       "NamVak":"Sriya",
+// //       "prod":"Tesla Ev Car",
+// //       "cost":5000000
+// //     },
+// //     {
+// //       "NamVak":"Navya",
+// //       "prod":"Tesla Ev Car",
+// //       "cost":10000000
+// //     },
+// //     {
+// //       "NamVak":"serena",
+// //       "prod":"iphone 20",
+// //       "cost":400000
+// //     },
+// //     {
+// //       "NamVak":"jayanth",
+// //       "prod":"HP Envy 390",
+// //       "cost":40000
+// //     }
+ 
+// //   ]
+// //   // sortByName(a:any,b:any)
+// //   // {
+// //   //   return a.NamVak.localeCompare(b.NamVak)
+// //   // }
+// //   // sortByprod(a:any,b:any)
+// //   // {
+// //   //   return a.prod.localeCompare(b.prod)
+// //   // }
+// //   // sortBycost(a:any,b:any)
+// //   // {
+// //   //   return a.cost -b.cost
+// //   // }
+// //   // filterCost()
+// //   // {
+// //   //   return this.verifyTable.filter(itmVar => itmVar.cost<1000000)
+// //   // }
+
+// //   seasonVar = "winter"
+// //   StsVar = false
+
+// //   sortbyco() {
+// //     return this.verifyTable.sort((a,b)=>a.cost-b.cost)
+// //   }
+// //   totalCost() {
+// //     return this.verifyTable.reduce((sum, item) => sum + item.cost, 0);
+   
+// //   }
+// //   totalCostUnit(amount: number): string {
+// //     let unit = "";
+// //     let convertedValue = 0;
+
+// //     if (amount >= 10000000) {
+// //         unit = "Cr";
+// //         convertedValue = amount / 10000000;
+// //     } else if (amount >= 100000) {
+// //         unit = "L";
+// //         convertedValue = amount / 100000;
+// //     } else if (amount >= 1000) {
+// //         unit = "K";
+// //         convertedValue = amount / 1000;
+// //     } else {
+// //         return amount.toString(); 
+// //     }
+
+// //     return convertedValue + unit;
+// // }
+// // NamBtnKlkFnc(){
+// //   alert("why did you click me")
+// // }
+
+// // // todo = ['Task 1', 'Task 2', 'Task 3'];
+// // // inProgress = ['Task 4'];
+// // // test = ['Task 5'];
+
+// // // drop(event: CdkDragDrop<string[]>) {
+// // //   const prevContainer = event.previousContainer;
+// // //   const currentContainer = event.container;
+
+// // //   // Remove the item from the previous container and add it to the new container
+// // //   const item = event.item.data;
+// // //   prevContainer.data.splice(event.previousIndex, 1);
+// // //   currentContainer.data.splice(event.currentIndex, 0, item);
+// // // }
+
+// // colorArray = ['yellow', 'cyan', 'pink', 'red','orange'];
+// //   currentColorIndex = 0;
+// //   currentColor = this.colorArray[this.currentColorIndex];
+
+// //   ngOnInit()
+// //   {
+// //     setInterval(() => {
+// //       this.currentColorIndex = (this.currentColorIndex + 1) % this.colorArray.length;
+// //       this.currentColor = this.colorArray[this.currentColorIndex];
+// //     }, 1000);
+// //   }
+// // }
+// // export class AppComponent{
+ 
+// //   FomIptVar={
+// //     NamIptVar:"",
+// //     MblIptVav:"",
+// //     MylIptVav:""
+// //   }
+// //   TodoAryVar=[
+// //     "play cricket",
+// //     "watch Movie",
+// //     "pilimigrage center",
+// //     "meditation",
+// //     "sleep"
+// //   ]
+// // }
+
+
+// // export class AppComponent {
+// //   newTodo: string = '';
+// //   todoList: string[] = [
+// //     'play cricket',
+// //     'watch Movie',
+// //     'pilgrimage center',
+// //     'meditation',
+// //     'sleep'
+// //   ];
+
+// //   onSubmit() {
+// //     if (this.newTodo.trim() !== '') {
+// //       this.todoList.push(this.newTodo);
+// //       this.newTodo = '';
+// //     }
+// //   }
+// // }
+// // export class AppComponent {
+// //   FomIptVar={
+// //         NamIptVar:"",
+// //         MblIptVav:"",
+// //         MylIptVav:""
+// //       }
+// //   TodoAryVar=[
+// //         "play cricket",
+// //         "watch Movie",
+// //         "pilimigrage center",
+// //         "meditation",
+// //         "sleep"
+// //       ]
+// // AddBtnFnc()
+// //   {
+// //     // this.TodoAryVar.unshift(
+// //     //   this.FomIptVar.NamIptVak)
+    
+// //     // Del an item using splice
+// //     // this.TodoAryVar.splice(2,1)
+
+// //     // Add an item using splice
+// //     // this.TodoAryVar.splice(2,0,
+// //     //   this.FomIptVar.NamIptVak)
+
+// //     // Update an item using splice
+// //       this.TodoAryVar.splice(2,1,
+// //         this.FomIptVar.NamIptVak)
+
+// //    this. FomIptVar.NamIptVak=""
+// //       } 
+// //     }    
+
+ 
+
+// export class AppComponent {
+//   FomIptVar = {
+//     NamIptVak: ''
+//   };
+ 
+//   ToDoAryVar: any[] = [
+//     "Play Cricket",
+//     "Watch Movie",
+//     "Pilgrimage Center",
+//     "Meditation",
+//     "Sleep"
+//   ];
+ 
+//   editIndex: number | null = null;
+//   editValue:any = '';
+ 
+//   addToDo() {
+//     if (this.FomIptVar.NamIptVak) 
+//       {
+
+//         console.log("Value",this.FomIptVar.NamIptVak)
+//       this.ToDoAryVar.push(this.FomIptVar.NamIptVak);
+//       this.FomIptVar.NamIptVak = '';  
+//     }
+//   }
+//   ind=0
+ 
+//   handleclick(){
+//     this.ToDoAryVar.splice(this.ind,1,this.FomIptVar.NamIptVak);
+//     this.FomIptVar.NamIptVak=""
+//   }
+ 
+//   edit(item:any,i:any){
+//     this.FomIptVar.NamIptVak=item;
+//     this.ind=i
+   
+//   }
+ 
+ 
+//   deleteToDo(index: number) {
+//     this.ToDoAryVar.splice(index, 1);
+//   }
+ 
+ 
+// }
+
+.html content
+
+
+ <!-- <form>
+<input type="text" [(ngModel)]="FomIptVar.NamIptVak"
+placeholder="Enter Name">
+<input type="text" [(ngModel)]="FomIptVar.MblIptVak"
+placeholder="Enter Name">
+<input type= "text" [(ngModel)]="FomIptVar.MylIptVak"
+placeholder="Enter Name">
+<button>Add</button>
+
+</form> -->
+
+<!-- <h1>You Entered :{{FomIntVar.NamIptVar}}</h1>
+<form>
+<input type="text" name="NamIptVav" #NamIptVav="ngModel" [(ngModel)]="FomIntVar.NamIptVar" placeholder="Enter Name" required
+minlength="3"
+maxlength="10">
+<div *ngIf="NamIptVav.invalid && (NamIptVav.touched || NamIptVav.dirty)" class="ErrorMsg">
+    <span *ngIf="NamIptVav.errors?.required"> Name is </span>
+</div>
+<input type="text" [(ngModel)]="FomIntVar.MobileIpt" placeholder="Enter Mobile">
+<input type="email" [(ngModel)]="FomIntVar.Email" placeholder="Enter Email">
+<button>ADD</button>
+</form> -->
+
+<!-- <form>
+  <label>
+    <input type="text" 
+      name="NamIptVav" 
+      #NamIptVav="ngModel" 
+      [(ngModel)]="FomIptVar.NamIptVak" 
+      placeholder="Enter Name"
+      required 
+      minlength="3"
+      maxlength="10">
+    <div *ngIf="NamIptVav.invalid && 
+    (NamIptVav.touched || NamIptVav.dirty)" class="ErrMsgCls">
+      <span *ngIf="NamIptVav.errors?.required">Name is required.</span>
+      <span *ngIf="NamIptVav.errors?.minlength">Min length shud be 3</span>
+      <span *ngIf="NamIptVav.errors?.maxlength">Max length shud be 10</span>
+    </div>
+  </label>
+  <br>
+  <br>
+  <label>
+    <input type="number" 
+    name="MblIptVav" 
+    #MblIptVav="ngModel"
+      [(ngModel)]="FomIptVar.MblIptVak" 
+      placeholder="Enter Mobile"
+      pattern="[6-9][0-9]{9}">
+      <div *ngIf="MblIptVav.invalid && 
+    (MblIptVav.touched || MblIptVav.dirty)" class="ErrMsgCls">
+      <span *ngIf="MblIptVav.errors?.required">Mobile is required.</span>
+      <span *ngIf="MblIptVav.errors?.pattern">Enter valid mobile</span>
+    </div>
+  </label>
+  <br>
+  <br>
+  <label>
+  <input type="email"
+    name="MylIptVav" 
+    #MylIptVav="ngModel" 
+    [(ngModel)]="FomIptVar.MylIptVak" 
+    placeholder="Enter Email"
+    required
+    email>
+  <div *ngIf="MylIptVav.invalid && 
+    (MylIptVav.touched || MylIptVav.dirty)" class="ErrMsgCls">
+      <span *ngIf="MylIptVav.errors?.required">Email is required.</span>
+      <span *ngIf="MylIptVav.errors?.email">Enter valid email</span>
+    </div>
+  </label>
+  <br>
+  <br>
+  <button>Add</button>
+</form> -->
+
+<!-- <form>
+  <h1>Add Form</h1>
+  <label>
+    <input type="text" 
+      name="NamIptVav" 
+      #NamIptVav="ngModel" 
+      [(ngModel)]="FomIptVar.NamIptVak" 
+      placeholder="Enter Todo"
+      required 
+      minlength="3"
+      maxlength="10">
+    <div *ngIf="NamIptVav.invalid && 
+    (NamIptVav.touched || NamIptVav.dirty)" class="ErrMsgCls">
+      <span *ngIf="NamIptVav.errors?.required">Todo is required.</span>
+      <span *ngIf="NamIptVav.errors?.minlength">Min length shud be 3</span>
+      <span *ngIf="NamIptVav.errors?.maxlength">Max length shud be 10</span>
+    </div>
+  </label>
+  <br>
+  <br>
+  <button>Add</button>
+</form>
+<hr>
+<h1>Todo List</h1>
+<ul *ngFor="let ItmVar of TodoAryVar">
+  <li>{{ItmVar}}</li>
+</ul> -->
+
+<!-- <form (ngSubmit)="onSubmit()">
+  <h1>Add Form</h1>
+  <label>
+    <input type="text" 
+      name="NamIptVav" 
+      #NamIptVav="ngModel" 
+      [(ngModel)]="newTodo" 
+      placeholder="Enter Todo"
+      required 
+      minlength="3"
+      maxlength="10">
+    <div *ngIf="NamIptVav.invalid && 
+    (NamIptVav.touched || NamIptVav.dirty)" class="ErrMsgCls">
+      <span *ngIf="NamIptVav.errors?.required">Todo is required.</span>
+      <span *ngIf="NamIptVav.errors?.minlength">Min length should be 3</span>
+      <span *ngIf="NamIptVav.errors?.maxlength">Max length should be 10</span>
+    </div>
+  </label>
+  <br>
+  <br>
+  <button [disabled]="NamIptVav.invalid">Add</button>
+</form>
+<hr>
+<h1>Todo List</h1>
+<ul>
+  <li *ngFor="let todo of todoList">{{todo}}</li>
+</ul> -->
+<!-- <form (ngSubmit)="addToDo()">
+  <label>
+    <input type="text"
+      name="NamIptVav"
+      #NamIptVav="ngModel"
+      [(ngModel)]="FomIptVar.NamIptVak"
+      placeholder="Enter Todo"
+      required
+      minlength="3"
+      maxlength="10">
+    <div *ngIf="NamIptVav.invalid && (NamIptVav.touched || NamIptVav.dirty)" class="ErrMsgCls">
+      <span *ngIf="NamIptVav.errors?.required">Name is required.</span>
+      <span *ngIf="NamIptVav.errors?.minlength">Min length should be 3</span>
+      <span *ngIf="NamIptVav.errors?.maxlength">Max length should be 10</span>
+    </div>
+  </label>
+ 
+  <button type="submit">Update</button>
+</form>
+
+<h1>To Do list</h1>
+<ul>
+  <li *ngFor="let ItmVar of ToDoAryVar; let i = index">
+
+      {{ItmVar}}
+      <button (click)="edit(ItmVar,i)">Edit</button>
+      <button (click)="deleteToDo(i)">Del</button>
+  </li>
+</ul> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <html>
+  <table border="1">
+    <tr>
+      <th>Name</th>
+      <th>Prod</th>
+      <th>Cost</th>
+      <th>Actions</th>
+    </tr>
+    <tr *ngFor="let ItmVar of verifyTable; let i = index">
+      <td>{{ItmVar.NamVak}}</td>
+      <td>{{ItmVar.prod}}</td>
+      <td>{{ItmVar.cost}}</td>
+      <td>
+        <button (click)="editRow(i)">Edit</button>
+        <button (click)="deleteRow(i)">Delete</button>
+      </td>
+    </tr>
+  </table>
+
+  <form name="editForm">
+    <label>
+      Name:
+      <input type="text" name="NamIptVak" [(ngModel)]="NamFomVar.NamIptVak" required>
+    </label>
+    <br>
+    <label>
+      Prod:
+      <input type="text" name="prod" [(ngModel)]="NamFomVar.prod" required>
+    </label>
+    <br>
+    <label>
+      Cost:
+      <input type="number" name="cost" [(ngModel)]="NamFomVar.cost" required>
+    </label>
+    <br>
+    <button (click)="UptBtnFnc()" *ngIf="EdtIdxVar >= 0">Update</button>
+  </form>
+</html> -->
+<!-- <h1>This is header</h1>
+
+<form name="NamFomVav" #NamFomVav="ngForm">
+  <h1>Add Prod</h1>
+  <input type="text"
+         placeholder="Name"
+         [(ngModel)]="NamFomVar.NamVak"
+         name="NamVak"
+         #NamVak="ngModel"/>
+  <br><br>
+  <input type="text"
+         placeholder="Prod"
+         [(ngModel)]="NamFomVar.PrdVak"
+         name="PrdVak"
+         #PrdVak="ngModel"/>
+  <br><br>
+  <input type="number"
+         placeholder="Cost"
+         [(ngModel)]="NamFomVar.CstVak"
+         name="CstVak"
+         #CstVak="ngModel"/>
+  <br><br>
+  <button (click)="AddProdFnc(NamFomVav)">Add</button>
+</form>
+
+<table border="2">
+  <tr>
+    <th>Name</th>
+    <th>Prod</th>
+    <th>Cost</th>
+    <th>Action</th>
+  </tr>
+  <tr *ngFor="let prod of prodAryVar ;let i = index">
+    <td>{{prod.nameCol}}</td>
+    <td>{{prod.productCol}}</td>
+    <td>{{prod.costCol}}</td>
+    <td>
+      <button (click)="editRow(i)">Edit</button>
+ 
+      <button *ngIf="EdtIdxVar === i" (click)="UptBtnFnc(i)">Update</button>
+ 
+      <button (click)="deleteRow(i, prod.UidCol)">Delete</button>
+      //<button (click)="deleteProdFnc(prod.UidCol)">Delete</button>
+     
+
+    
+    </td>
+  </tr>
+</table> -->
+
+
+<h1>Product Management</h1>
+ 
+<form name="NamFomVav" #NamFomVav="ngForm">
+  <label>
+    Name:
+    <input
+      type="text"
+      placeholder="Name"
+      name="NamCol"
+      [(ngModel)]="NamFomVar.nameCol"
+      #NamFomVav="ngModel"
+      required>
+  </label>
+  <br>
+  <label>
+    Product:
+    <input
+      type="text"
+      name="ProdCol"
+      [(ngModel)]="NamFomVar.productCol"
+      #PrdFomVav="ngModel"
+      required>
+  </label>
+  <br>
+  <label>
+    Cost:
+    <input
+      type="number"
+      name="CostCol"
+      [(ngModel)]="NamFomVar.costCol"
+      #CstFomVav="ngModel"
+      required>
+  </label>
+  <br>
+  <button (click)="AddProdFnc(NamFomVav)">Add</button>
+</form>
+ 
+<table border="10">
+  <tr>
+    <th>Name</th>
+    <th>Product</th>
+    <th>Cost</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let prod of prodAryVar; let i = index">
+    <td>{{prod.nameCol}}</td>
+    <td>{{prod.productCol}}</td>
+    <td>{{prod.costCol}}</td>
+    <td>
+      <button (click)="editRow(i)">Edit</button>
+ 
+      <button *ngIf="EdtIdxVar === i" (click)="UptBtnFnc(i)">Update</button>
+ 
+      <button (click)="deleteRow(i, prod.UidCol)">Delete</button>
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+// // import { Component } from '@angular/core';
+// // import { RouterOutlet } from '@angular/router';
+// // import { CommonModule } from '@angular/common';
+// // import { FormsModule, NgForm } from '@angular/forms';
+// // import { HttpClient } from '@angular/common/http';
+
+// // @Component({
+// //   selector: 'app-root',
+// //   standalone: true,
+// //   imports: [RouterOutlet, CommonModule, FormsModule],
+// //   templateUrl: './app.component.html',
+// //   styleUrls: ['./app.component.css']
+// // })
+// // export class AppComponent {
+
+// //   NamFomVar = {
+// //     NamIptVak: "",
+// //     prod: "",
+// //     cost: 0
+// //   };
+// //   prodAryVar!:any
+
+// //   constructor(public HttpConnection: HttpClient) { 
+// //     this.HttpConnection.get("http://localhost:8000/prod")
+// //     .subscribe( ResRsgVar =>{
+// //       console.log(ResRsgVar)
+// //       this.prodAryVar=ResRsgVar
+// //     })
+
+// //     this.HttpConnection.post("http://localhost:8000/prod",)
+// //     .subscribe( ResRsgVar =>{
+// //       console.log(ResRsgVar)
+// //       this.prodAryVar=ResRsgVar
+// //     })
+    
+// //   }
+
+// //   verifyTable = [
+// //     { "NamVak": "Sriya", "prod": "Tesla Ev Car", "cost": 5000000 },
+// //     { "NamVak": "Navya", "prod": "Tesla Ev Car", "cost": 10000000 },
+// //     { "NamVak": "serena", "prod": "iphone 20", "cost": 400000 },
+// //     { "NamVak": "jayanth", "prod": "HP Envy 390", "cost": 40000 }
+// //   ];
+
+// //   EdtIdxVar = -1;
+
+// //   editRow(index: number) {
+// //     const selectedRow = this.verifyTable[index];
+// //     this.NamFomVar.NamIptVak = selectedRow.NamVak;
+// //     this.NamFomVar.prod = selectedRow.prod;
+// //     this.NamFomVar.cost = selectedRow.cost;
+// //     this.EdtIdxVar = index;
+// //   }
+
+// //   deleteRow(index: number) {
+// //     if (confirm("Do you really want to delete?")) {
+// //       this.verifyTable.splice(index, 1);
+// //     }
+// //   }
+
+// //   UptBtnFnc() {
+// //     if (this.EdtIdxVar >= 0) {
+// //       this.verifyTable[this.EdtIdxVar] = {
+// //         NamVak: this.NamFomVar.NamIptVak,
+// //         prod: this.NamFomVar.prod,
+// //         cost: this.NamFomVar.cost
+// //       };
+// //       this.EdtIdxVar = -1;
+// //       this.resetForm(); 
+// //     }
+// //   }
+
+// //   resetForm() {
+// //     this.NamFomVar = {
+// //       NamIptVak: "",
+// //       prod: "",
+// //       cost: 0
+// //     };
+// //   }
+// // }
+
+// // import { Component } from '@angular/core';
+// // import { RouterOutlet } from '@angular/router';
+// // import { CommonModule } from '@angular/common';
+// // import { FormsModule, NgForm } from '@angular/forms';
+// // import { HttpClient } from '@angular/common/http';
+
+// // @Component({
+// //   selector: 'app-root',
+// //   standalone: true,
+// //   imports: [RouterOutlet, CommonModule, FormsModule],
+// //   templateUrl: './app.component.html',
+// //   styleUrl: './app.component.css'
+// // })
+// // export class AppComponent {
+
+// //   NamFomVar={
+// //     "NamVak":"",
+// // 	  "PrdVak":"",
+// //     "CstVak":0
+// //   }
+
+// //   TodoAryVar = [
+// //     "Play Cricket",
+// //     "Watch Movie",
+// //     "Pilimigrage Center",
+// //     "Mediation",
+// //     "Sleep"
+// //   ]
+
+// //   prodAryVar!:any
+// //   selectedProdId: string | null = null;
+
+// //   constructor(public httpConnection: HttpClient) { 
+// //     this.getProdFnc()
+// //   }
+
+// //   getProdFnc()
+// //   {
+// //     this.httpConnection.get("http://localhost:8000/prod")
+// // 		.subscribe(
+// // 			ResRsgVar =>
+// // 			{
+// // 				console.log(ResRsgVar)
+// //         this.prodAryVar = ResRsgVar
+// // 			})
+// //   }
+
+// //   AddProdFnc(NamFomVav:NgForm)
+// //   {
+// //     this.httpConnection.post(
+// //       "http://localhost:8000/prod",
+// //       this.NamFomVar
+// //     )
+// //         .subscribe(
+// //           ResRsgVar =>
+// //           {
+// //             console.log(ResRsgVar)
+// //             NamFomVav.resetForm()
+// //             this.getProdFnc()
+// //           })
+// //   }
+// //   deleteProdFnc(UidCol: string) {
+// //     this.httpConnection.delete(`http://localhost:8000/prod/${UidCol}`)
+// //       .subscribe(
+// //         ResRsgVar => {
+// //           console.log(ResRsgVar);
+// //           this.getProdFnc();
+// //         });
+// //   }
+// //   updateProdFnc(UidCol: string, NamFomVav: NgForm) {
+// //     this.httpConnection.put(
+// //       `http://localhost:8000/prod/${UidCol}`,
+// //       this.NamFomVar
+// //     )
+// //       .subscribe(
+// //         ResRsgVar => {
+// //           console.log(ResRsgVar);
+// //           NamFomVav.resetForm();
+// //           this.getProdFnc();
+// //           this.resetForm();
+// //         });
+// //   }
+
+// //   loadProdFnc(prod: any) {
+// //     this.selectedProdId = prod.UidCol;
+// //     this.NamFomVar = {
+// //       NamVak: prod.nameCol,
+// //       PrdVak: prod.productCol,
+// //       CstVak: prod.costCol
+// //     };
+// //   }
+// //   resetForm() {
+// //     this.selectedProdId = null;
+// //     this.NamFomVar = {
+// //       "NamVak": "",
+// //       "PrdVak": "",
+// //       "CstVak": 0
+// //     };
+// //   }
+  
+
+// //   EdtIdxVar = -1
+
+// //   // EdtBtnFnc(IdxVar:number)
+// //   // {
+// //   //   this.EdtIdxVar = IdxVar
+// //   //   this.NamFomVar.NamIptVak = this.TodoAryVar[IdxVar]
+// //   // }
+
+// //   // UptBtnFnc(NamIptPsgVav:NgModel)
+// //   // {
+// //   //   this.TodoAryVar[this.EdtIdxVar] = this.NamFomVar.NamIptVak
+// //   //   this.EdtIdxVar = -1
+// //   //   NamIptPsgVav.reset('')
+// //   // }
+
+// //   // DelBtnFnc(IdxVar:number)
+// //   // {
+// //   //   if(confirm("Do u really wannu del"))
+// //   //     this.TodoAryVar.splice(IdxVar,1)
+// //   // }
+  
+// // }
+
+// import { Component } from '@angular/core';
+// import { RouterOutlet } from '@angular/router';
+// import { CommonModule } from '@angular/common';
+// import { FormsModule, NgForm } from '@angular/forms';
+// import { HttpClient } from '@angular/common/http';
+ 
+// @Component({
+//   selector: 'app-root',
+//   standalone: true,
+//   imports: [RouterOutlet, CommonModule, FormsModule],
+//   templateUrl: './app.component.html',
+//   styleUrls: ['./app.component.css']
+// })
+// export class AppComponent {
+//   NamFomVar = {
+//     nameCol: "",
+//     productCol: "",
+//     costCol: 0
+//   };
+ 
+//   prodAryVar!: any;
+//   EdtIdxVar = -1;
+ 
+//   constructor(public httpConnection: HttpClient) {
+//     this.getProdFnc();
+//   }
+ 
+//   getProdFnc() {
+//     this.httpConnection.get("http://localhost:8000/prod")
+//       .subscribe({
+//         next: (ResRsgVar: any) => {
+//           this.prodAryVar = ResRsgVar;
+//           console.log(this.prodAryVar);
+//         },
+//         error: (err) => {
+//           console.error('Error occurred:', err);
+//         }
+//       });
+//   }
+ 
+//   AddProdFnc(NamFomVar: NgForm) {
+//     this.httpConnection.post(
+//       "http://localhost:8000/prod",
+//       this.NamFomVar
+//     ).subscribe({
+//       next: (ResRsgVar: any) => {
+//         console.log('Response:', ResRsgVar);
+//         this.getProdFnc();
+//         this.resetForm();
+//       },
+//       error: (err) => {
+//         console.error('Error occurred:', err);
+//       }
+//     });
+//   }
+ 
+//   editRow(index: number) {
+//     const selectedRow = this.prodAryVar[index];
+//     this.NamFomVar.nameCol = selectedRow.nameCol;
+//     this.NamFomVar.productCol = selectedRow.productCol;
+//     this.NamFomVar.costCol = selectedRow.costCol;
+//     this.EdtIdxVar = index;
+//   }
+ 
+//   UptBtnFnc(index: number) {
+//     if (this.EdtIdxVar >= 0) {
+//       const updatedRow = this.prodAryVar[index];
+//       updatedRow.nameCol = this.NamFomVar.nameCol;
+//       updatedRow.productCol = this.NamFomVar.productCol;
+//       updatedRow.costCol = this.NamFomVar.costCol;
+ 
+//       this.httpConnection.put(`http://localhost:8000/prod/${updatedRow.UidCol}`, updatedRow)
+//         .subscribe({
+//           next: (ResRsgVar: any) => {
+//             console.log('Updated:', ResRsgVar);
+//             this.getProdFnc();
+//             this.resetForm();
+//           },
+//           error: (err) => {
+//             console.error('Error occurred:', err);
+//           }
+//         });
+ 
+//       this.EdtIdxVar = -1;
+//     }
+//   }
+ 
+//   deleteRow(index: number, UidCol: number) {
+//     if (confirm("Do you really want to delete?")) {
+//       this.httpConnection.delete(`http://localhost:8000/prod/${UidCol}`)
+//         .subscribe({
+//           next: (ResRsgVar: any) => {
+//             console.log('Deleted:', ResRsgVar);
+//             this.getProdFnc(); // Refresh the list after deletion
+//           },
+//           error: (err) => {
+//             console.error('Error occurred:', err);
+//           }
+//         });
+//     }
+//   }
+ 
+//   resetForm() {
+//     this.NamFomVar = {
+//       nameCol: "",
+//       productCol: "",
+//       costCol: 0
+//     };
+//     this.EdtIdxVar = -1;
+//   }
+// }
+ 

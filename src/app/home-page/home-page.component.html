@@ -1,0 +1,27 @@
+<h1 chg-clr>This is Home Page</h1>
+<h1 chg-clr></h1>
+
+<button (click)="namService.loginFnc()">login</button>
+
+<button (click)="GotoPageFnc()"> Goto User</button>
+<br><hr>
+<form>
+    <h2>Selected News :{{selectedNews}}</h2>
+	<input placeholder="comment"
+		[(ngModel)]="commentIptVar"
+		name="commentVav"
+		#commentVav="ngModel">
+	<button (click)="addCommentFnc(commentVav)">Add Comment</button>
+</form>
+<news-page title="Education"
+	detail="Angular is tot in school"
+	[commentAry]="commentAryVar['Education']"
+    (SelectMe) ="selectMefun($event)"></news-page>
+<news-page title="Sports"
+	detail="Ee sala Cup Namdhe"
+    [commentAry]="commentAryVar['Sports']"
+    (SelectMe) ="selectMefun($event)"></news-page>
+<news-page title="Politics"
+	detail="Crow sat on DK Shivkumar Car"
+    [commentAry]="commentAryVar['Politics']"
+    (SelectMe) ="selectMefun($event)"></news-page>
